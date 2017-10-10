@@ -19,7 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         AnchorPane root = FXMLLoader.load(getClass().getResource("Control.fxml"));
-        primaryStage.setResizable(false);
+
         primaryStage.setTitle("Diplom");
         primaryStage.setScene(new Scene(root, 900, 600));
 
