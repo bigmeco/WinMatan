@@ -17,8 +17,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control">
    <children>
       <ListView fx:id="file" prefHeight="550.0" prefWidth="200.0" style="-fx-border-color: #5a5099;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Label fx:id="jisla" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="10.0" prefHeight="450.0" prefWidth="500.0" style="-fx-background-color: #afcb51;"
-             AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="10.0">
+      <Label fx:id="jisla" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="10.0" prefHeight="450.0" prefWidth="500.0" style="-fx-background-color: #afcb51;" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="168.0" />
          </font>
@@ -36,11 +35,12 @@
             </HBox>
          </children></VBox>
       <ToolBar layoutX="199.0" layoutY="5.0" prefWidth="500.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="0.0" />
-      <Button fx:id="start" layoutY="560.0" mnemonicParsing="false" onAction="#Start" prefHeight="40.0" prefWidth="900.0" text="Старт" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="560.0" />
+      <Button fx:id="start" layoutY="560.0" mnemonicParsing="false" onAction="#Start" prefHeight="40.0" prefWidth="900.0" text="Старт" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <ImageView fx:id="img" fitHeight="260.0" fitWidth="260.0" layoutX="320.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image  url="@footbik.png" />
+            <Image url="@footbik.png" />
          </image>
       </ImageView>
+      <Button fx:id="Dalee" layoutY="560.0" mnemonicParsing="false" onAction="#Dalee" prefHeight="40.0" prefWidth="900.0" text="Далее" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>

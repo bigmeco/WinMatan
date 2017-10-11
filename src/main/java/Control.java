@@ -1,7 +1,5 @@
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,40 +9,37 @@ import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Control {
-    public ListView file;
-    public ImageView img;
-    public Label jisla;
-
+    @FXML
+    private ListView file;
+    @FXML
+    private ImageView img;
+    @FXML
+    private Label jisla;
+    @FXML
+    private Button Dalee;
     @FXML
     private Button start;
-    ObservableList<String> names = FXCollections
-            .observableArrayList();
-    File pathDir = null;
-    String[] pathsFilesAndDir;
-    String vib;
-    String[] array = {};
 
-    private final long[] frameTimes = new long[10];
+    private File pathDir = null;
+    private String[] pathsFilesAndDir;
+    private String vib;
+    private AnimationTimer frameRateMeter;
     private int frameTimeIndex = 0;
+    private int o = 1;
+    private List<Integer> listZ = new ArrayList<>();
+    private List<Integer> listJ = new ArrayList<>();
+
 
     @FXML
     public void initialize() {
 
         try {
-            // Создание нового объекта file
-
-            pathDir = new File("Testler"); // Обязательно должен существовать указанный каталог на диске, иначе программа выдаст ошибку
-
-            // Массив файлов и папок
+            pathDir = new File("Testler");
             pathsFilesAndDir = pathDir.list();
             file.getItems().addAll(pathsFilesAndDir);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,68 +50,88 @@ public class Control {
                     start.setDisable(false);
                 });
 
-        img.setVisible(false);
 
 
     }
 
 
     public void Start(ActionEvent actionEvent) throws FileNotFoundException {
-
-
+        img.setVisible(false);
+        file.setDisable(true);
         List<String> list = new ArrayList<String>();
-
+        HashMap<Integer,Integer> MapZd = new HashMap<>() ;
         Scanner in = new Scanner(new File("Testler\\" + vib));
-        while (in.hasNextLine())
+        while (in.hasNextLine()){
             list.add(in.nextLine());
-        array = list.toArray(new String[0]);
+        }
         int x = 0;
+        int s=0;
 
-        for (int i = 0; i < array.length; i++) {
-
-            if (!Objects.equals(array[i], "")) {
-                System.out.println(array[i]);
+        for (int i = 0; i < list.size(); i++) {
+            if (!Objects.equals(list.get(i), "")) {
+                s++;
                 x = 0;
             } else {
                 x += 1;
                 if (x <= 1) {
-                    System.out.println("new");
+                    listZ.add(s);
                 }
             }
         }
+        listZ.add(s);
 
-        AnimationTimer frameRateMeter = new AnimationTimer() {
+        System.out.println(listZ);
+        for (int f = 0; f <list.size() ; f++) {
 
-            @Override
-            public void handle(long now) {
+            if (!Objects.equals(list.get(f), "")) {
+                listJ.add(Integer.parseInt(list.get(f)));
+                x = 0;
+            } else {
+                x += 1;
+        }
+        }
+        System.out.println(listJ);
+        for (int i = 0; i <2 ; i++) {
+            setJisla(400,listJ,listZ.get(0));
+        }
 
-                System.out.println(frameTimeIndex);
-                frameTimeIndex = (frameTimeIndex + 1) ;
-                if(frameTimeIndex ==array.length){
-
-                }
-
-
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                jisla.setText(String.valueOf(array[frameTimeIndex]));
-
-
-
-            }
-        };
         frameRateMeter.start();
 
 
-
+        start.setVisible(false);
+        Dalee.setVisible(true);
     }
 
-    private void setJisla() throws FileNotFoundException {
+    private void setJisla(int time, List listJ,int col) throws FileNotFoundException {
 
+        frameRateMeter = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                if (frameTimeIndex == col- 1) {
+                    frameRateMeter.stop();
+                }
+
+                try {
+                    Thread.sleep(time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                jisla.setText(String.valueOf(listJ.get(frameTimeIndex)));
+
+                System.out.println(listJ.get(frameTimeIndex));
+                System.out.println(frameTimeIndex);
+                frameTimeIndex++;
+            }
+
+        };
+    }
+
+    public void Dalee(ActionEvent actionEvent) throws FileNotFoundException {
+
+        setJisla(400,listJ,listZ.get(o));
+        frameRateMeter.start();
+        o++;
     }
 }
 
