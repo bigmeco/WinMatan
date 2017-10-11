@@ -2,16 +2,20 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Control {
+    public CheckBox otvOtab;
+    public Label otvet;
+    public Slider skorost;
     @FXML
     private ListView file;
     @FXML
@@ -31,7 +35,9 @@ public class Control {
     private int o = 1;
     private List<Integer> listZ = new ArrayList<>();
     private List<Integer> listJ = new ArrayList<>();
-
+    private List<Integer> listOt = new ArrayList<>();
+    private long Skor = 200;
+    private int sumPl = 0;
 
     @FXML
     public void initialize() {
@@ -50,22 +56,26 @@ public class Control {
                     start.setDisable(false);
                 });
 
-
-
+        skorost.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int d = String.valueOf(newValue).indexOf('.');
+            Skor = Integer.parseInt(String.valueOf(newValue).substring(0, d));
+        });
     }
 
 
     public void Start(ActionEvent actionEvent) throws FileNotFoundException {
         img.setVisible(false);
         file.setDisable(true);
-        List<String> list = new ArrayList<String>();
-        HashMap<Integer,Integer> MapZd = new HashMap<>() ;
+        List<String> list = new ArrayList<>();
+
         Scanner in = new Scanner(new File("Testler\\" + vib));
         while (in.hasNextLine()){
             list.add(in.nextLine());
         }
         int x = 0;
         int s=0;
+        int sum = 0;
+
 
         for (int i = 0; i < list.size(); i++) {
             if (!Objects.equals(list.get(i), "")) {
@@ -82,56 +92,56 @@ public class Control {
 
         System.out.println(listZ);
         for (int f = 0; f <list.size() ; f++) {
-
             if (!Objects.equals(list.get(f), "")) {
+                sum += Integer.parseInt(list.get(f));
                 listJ.add(Integer.parseInt(list.get(f)));
                 x = 0;
             } else {
                 x += 1;
+                listOt.add(sum);
+                sum = 0;
         }
         }
-        System.out.println(listJ);
+        listOt.add(sum);
         for (int i = 0; i <2 ; i++) {
-            setJisla(400,listJ,listZ.get(0));
+            setJisla(Skor, listJ, listZ.get(0));
         }
-
         frameRateMeter.start();
-
-
         start.setVisible(false);
         Dalee.setVisible(true);
     }
 
-    private void setJisla(int time, List listJ,int col) throws FileNotFoundException {
-
+    private void setJisla(long time, List listJ, int col) throws FileNotFoundException {
         frameRateMeter = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
-                if (frameTimeIndex == col- 1) {
-                    frameRateMeter.stop();
-                }
-
                 try {
                     Thread.sleep(time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 jisla.setText(String.valueOf(listJ.get(frameTimeIndex)));
-
                 System.out.println(listJ.get(frameTimeIndex));
                 System.out.println(frameTimeIndex);
                 frameTimeIndex++;
+                if (frameTimeIndex == col - 1) {
+                    frameRateMeter.stop();
+                    if (otvOtab.isSelected()) {
+                        otvet.setText(String.valueOf(listOt.get(sumPl)));
+                    }
+                    sumPl += sumPl + 2;
+                }
             }
-
         };
     }
 
-    public void Dalee(ActionEvent actionEvent) throws FileNotFoundException {
 
-        setJisla(400,listJ,listZ.get(o));
+    public void Dalee(ActionEvent actionEvent) throws FileNotFoundException {
+        setJisla(Skor, listJ, listZ.get(o));
         frameRateMeter.start();
         o++;
+
     }
 }
 
