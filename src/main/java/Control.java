@@ -2,7 +2,10 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
@@ -13,9 +16,10 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Control {
-    public CheckBox otvOtab;
-    public Label otvet;
+
     public Slider skorost;
+    public Button Otveti;
+    public Slider kolzad;
     @FXML
     private ListView file;
     @FXML
@@ -36,7 +40,8 @@ public class Control {
     private List<Integer> listZ = new ArrayList<>();
     private List<Integer> listJ = new ArrayList<>();
     private List<Integer> listOt = new ArrayList<>();
-    private long Skor = 200;
+    private long Skor = 500;
+    private int KolZad = 0;
     private int sumPl = 0;
 
     @FXML
@@ -57,8 +62,11 @@ public class Control {
                 });
 
         skorost.valueProperty().addListener((observable, oldValue, newValue) -> {
-            int d = String.valueOf(newValue).indexOf('.');
-            Skor = Integer.parseInt(String.valueOf(newValue).substring(0, d));
+            Double d = newValue.doubleValue() * 1000;
+            Skor = d.longValue();
+        });
+        kolzad.valueProperty().addListener((observable, oldValue, newValue) -> {
+            KolZad = newValue.intValue();
         });
     }
 
@@ -102,13 +110,14 @@ public class Control {
                 sum = 0;
         }
         }
-        listOt.add(sum);
+
         for (int i = 0; i <2 ; i++) {
             setJisla(Skor, listJ, listZ.get(0));
         }
         frameRateMeter.start();
         start.setVisible(false);
         Dalee.setVisible(true);
+        Otveti.setVisible(true);
     }
 
     private void setJisla(long time, List listJ, int col) throws FileNotFoundException {
@@ -125,12 +134,10 @@ public class Control {
                 System.out.println(listJ.get(frameTimeIndex));
                 System.out.println(frameTimeIndex);
                 frameTimeIndex++;
-                if (frameTimeIndex == col - 1) {
+                if (frameTimeIndex == col) {
                     frameRateMeter.stop();
-                    if (otvOtab.isSelected()) {
-                        otvet.setText(String.valueOf(listOt.get(sumPl)));
-                    }
-                    sumPl += sumPl + 2;
+                    Otveti.setDisable(false);
+                    Dalee.setDisable(false);
                 }
             }
         };
@@ -138,10 +145,27 @@ public class Control {
 
 
     public void Dalee(ActionEvent actionEvent) throws FileNotFoundException {
-        setJisla(Skor, listJ, listZ.get(o));
-        frameRateMeter.start();
-        o++;
+        if(KolZad!=o) {
+            setJisla(Skor, listJ, listZ.get(o));
+            frameRateMeter.start();
+            o++;
+            if (!Otveti.isDisable()) {
+                sumPl++;
+            }
+            Otveti.setDisable(true);
+            Dalee.setDisable(true);
+        } else {
+            start.setVisible(true);
+            Dalee.setVisible(false);
+            Otveti.setVisible(false);
+        }
+    }
 
+    public void Otveti(ActionEvent actionEvent) {
+        System.out.println(listOt);
+        jisla.setText(String.valueOf(listOt.get(sumPl)));
+        sumPl++;
+        Otveti.setDisable(true);
     }
 }
 

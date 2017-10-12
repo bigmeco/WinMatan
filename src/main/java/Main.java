@@ -2,12 +2,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -18,10 +15,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        AnchorPane root = FXMLLoader.load(getClass().getResource("Control.fxml"));
-
+        AnchorPane root = FXMLLoader.load(getClass().getResource("StartLogo.fxml"));
+        primaryStage.setResizable(false);
+        primaryStage.setMinHeight(540);
+        primaryStage.setMinWidth(700);
         primaryStage.setTitle("Diplom");
-        primaryStage.setScene(new Scene(root, 900, 600));
+        primaryStage.setScene(new Scene(root, 700, 540));
 
         primaryStage.show();
 
