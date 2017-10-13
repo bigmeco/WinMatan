@@ -10,12 +10,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #afcb51;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f9a26e;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control">
    <children>
-      <Label fx:id="jisla" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" prefHeight="561.0" prefWidth="700.0" style="-fx-background-color: #afcb51;" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="jisla" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" prefHeight="561.0" prefWidth="700.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="400.0" />
          </font>
@@ -27,18 +28,18 @@
             </ImageView>
          </graphic>
       </Label>
-      <VBox alignment="CENTER" layoutY="361.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-border-color: #5a5099;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0">
+      <VBox fx:id="vbNas" alignment="CENTER" layoutY="361.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-border-color: #5a5099;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0">
          <children>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                <items>
                   <VBox prefWidth="180.0">
                      <children>
-                        <Label alignment="CENTER" text="Количество задач" textFill="#758a29">
+                        <Label alignment="CENTER" text="Количество задач" textFill="#5a5099">
                            <padding>
                               <Insets bottom="4.0" left="20.0" right="20.0" top="8.0" />
                            </padding>
                         </Label>
-                        <Slider fx:id="kolzad" blockIncrement="1.0" majorTickUnit="8.0" max="50.0" min="1.0" showTickLabels="true" value="1.0">
+                        <Slider fx:id="kolzad" blockIncrement="1.0" majorTickUnit="8.0" max="50.0" min="2.0" showTickLabels="true" value="8.0">
                            <padding>
                               <Insets left="4.0" right="4.0" />
                            </padding>
@@ -73,16 +74,33 @@
          <effect>
             <DropShadow />
          </effect></ListView>
-      <Button fx:id="start" layoutY="560.0" mnemonicParsing="false" onAction="#Start" prefHeight="40.0" prefWidth="900.0" text="Старт" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Button fx:id="Otveti" disable="true" layoutY="560.0" mnemonicParsing="false" onAction="#Otveti" prefHeight="40.0" prefWidth="440.0" text="Ответ" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
-      <Button fx:id="Dalee" disable="true" layoutX="449.0" layoutY="570.0" mnemonicParsing="false" onAction="#Dalee" prefHeight="40.0" prefWidth="440.0" text="Далее" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <ImageView fitHeight="67.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="533.2695083618164" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@footbilogo.jpg" />
-         </image>
+      <Button fx:id="start" disable="true" layoutY="560.0" mnemonicParsing="false" onAction="#Start" prefHeight="40.0" prefWidth="900.0" text="Старт" textFill="#5a5099" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="AsylbekM29.kz" size="20.0" />
+         </font></Button>
+      <Button fx:id="Otveti" disable="true" layoutY="560.0" mnemonicParsing="false" onAction="#Otveti" prefHeight="40.0" prefWidth="440.0" text="Ответ" textFill="#5a5099" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <font>
+            <Font name="AsylbekM29.kz" size="20.0" />
+         </font></Button>
+      <Button fx:id="Dalee" disable="true" layoutX="449.0" layoutY="570.0" mnemonicParsing="false" onAction="#Dalee" prefHeight="40.0" prefWidth="440.0" text="Далее" textFill="#758a29" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="AsylbekM29.kz" size="20.0" />
+         </font></Button>
+      <Button fx:id="Vixod" layoutX="460.0" layoutY="580.0" mnemonicParsing="false" onAction="#Vixod" prefHeight="40.0" prefWidth="440.0" text="Выход" textFill="#9d0000" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font name="AsylbekM29.kz" size="20.0" />
+         </font></Button>
+      <Pane style="-fx-background-color: #FFFFFF;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="67.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@futbol.png" />
+               </image>
+            </ImageView>
+         </children>
          <effect>
             <DropShadow />
          </effect>
-      </ImageView>
+      </Pane>
    </children>
 </AnchorPane>

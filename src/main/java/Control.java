@@ -1,15 +1,24 @@
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +29,8 @@ public class Control {
     public Slider skorost;
     public Button Otveti;
     public Slider kolzad;
+    public Button Vixod;
+    public VBox vbNas;
     @FXML
     private ListView file;
     @FXML
@@ -41,8 +52,9 @@ public class Control {
     private List<Integer> listJ = new ArrayList<>();
     private List<Integer> listOt = new ArrayList<>();
     private long Skor = 500;
-    private int KolZad = 0;
+    private int KolZad = 2;
     private int sumPl = 0;
+
 
     @FXML
     public void initialize() {
@@ -64,6 +76,7 @@ public class Control {
         skorost.valueProperty().addListener((observable, oldValue, newValue) -> {
             Double d = newValue.doubleValue() * 1000;
             Skor = d.longValue();
+            start.setDisable(false);
         });
         kolzad.valueProperty().addListener((observable, oldValue, newValue) -> {
             KolZad = newValue.intValue();
@@ -72,8 +85,11 @@ public class Control {
 
 
     public void Start(ActionEvent actionEvent) throws FileNotFoundException {
+
         img.setVisible(false);
         file.setDisable(true);
+        vbNas.setDisable(true);
+
         List<String> list = new ArrayList<>();
 
         Scanner in = new Scanner(new File("Testler\\" + vib));
@@ -110,7 +126,9 @@ public class Control {
                 sum = 0;
         }
         }
-
+        if(KolZad>=listZ.size()){
+            KolZad=listZ.size();
+        }
         for (int i = 0; i <2 ; i++) {
             setJisla(Skor, listJ, listZ.get(0));
         }
@@ -118,6 +136,7 @@ public class Control {
         start.setVisible(false);
         Dalee.setVisible(true);
         Otveti.setVisible(true);
+
     }
 
     private void setJisla(long time, List listJ, int col) throws FileNotFoundException {
@@ -126,25 +145,31 @@ public class Control {
             @Override
             public void handle(long now) {
                 try {
+                    jisla.setText(String.valueOf(listJ.get(frameTimeIndex)));
                     Thread.sleep(time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                jisla.setText(String.valueOf(listJ.get(frameTimeIndex)));
-                System.out.println(listJ.get(frameTimeIndex));
-                System.out.println(frameTimeIndex);
+
                 frameTimeIndex++;
                 if (frameTimeIndex == col) {
+                    System.out.println(listJ.get(frameTimeIndex));
                     frameRateMeter.stop();
                     Otveti.setDisable(false);
                     Dalee.setDisable(false);
                 }
+                if(KolZad==o) {
+                    Dalee.setVisible(false);
+                    Vixod.setVisible(true);
+                }
             }
+
         };
     }
 
 
     public void Dalee(ActionEvent actionEvent) throws FileNotFoundException {
+
         if(KolZad!=o) {
             setJisla(Skor, listJ, listZ.get(o));
             frameRateMeter.start();
@@ -154,19 +179,28 @@ public class Control {
             }
             Otveti.setDisable(true);
             Dalee.setDisable(true);
-        } else {
-            start.setVisible(true);
-            Dalee.setVisible(false);
-            Otveti.setVisible(false);
         }
     }
 
     public void Otveti(ActionEvent actionEvent) {
-        System.out.println(listOt);
-        jisla.setText(String.valueOf(listOt.get(sumPl)));
+        jisla.setText("="+String.valueOf(listOt.get(sumPl)));
         sumPl++;
         Otveti.setDisable(true);
     }
+
+    public void Vixod(ActionEvent actionEvent) throws IOException {
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.hide();
+        Stage Prepods = new Stage();
+        AnchorPane root = FXMLLoader.load(getClass().getResource("/StartLogo.fxml"));
+        Prepods.setMinHeight(540);
+        Prepods.setMinWidth(700);
+        Prepods.setScene(new Scene(root, 700, 540));
+        Prepods.show();
+    }
+
+
 }
 
 
